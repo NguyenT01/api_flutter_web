@@ -23,14 +23,16 @@
 
 
 const mongoose = require('mongoose');
+const credentials = require('./credentials')
 
-const conncectionString = "mongodb+srv://admin:admin@flutterapi.jqkrq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const connectionString = (process.env.NODE_ENV === 'production') ? 
+    credentials.mongo.production.connectionString : credentials.mongo.development.connectionString;
 
-mongoose.connect(conncectionString)
+mongoose.connect(connectionString)
 const db = mongoose.connection
 
 db.on('error', err => {
     console.error('MongoDB error: ' + err.message)
     process.exit(1)
 })
-db.once('open', () => console.log('MongoDB connection established'))
+db.once('open', () => console.log('MongoDB connection established at '+connectionString))

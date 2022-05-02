@@ -10,6 +10,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+require('dotenv').config()
 require('./dbconnect')
 
 // view engine setup
@@ -21,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('/18d?R'));
 app.use(session());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/storage',express.static(path.join(__dirname, 'public')));
 
 app.use((req,res, next)=>{
   res.locals.flash = req.session.flash
