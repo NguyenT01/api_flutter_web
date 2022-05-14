@@ -22,7 +22,7 @@ router.get('/init', (req, res, next) => {
 
 router.get('/:uid', (req, res, next) => {
     let uid = req.params.uid
-    Cart.find({ cus_id: uid })
+    Cart.find({ cus_id: uid, oid:""})
         .then(result => {
             if (!result || result.length === 0) {
                 return res.json({ code: 1, message: 'Không có dữ liệu tồn tại' })
@@ -48,7 +48,7 @@ router.post('/:uid/:pid', async (req, res, next) => {
                         // isPIDPromise.then((result2) =>{
                             isPID = await checkPID(pid)
                             if (isPID!=null) {
-                                Cart.updateOne({ cus_id: uid }, { items: [{
+                                Cart.updateOne({ cus_id: uid, oid: "" }, { items: [{
                                     pid: isPID.pid,
                                     price: isPID.price,
                                     title: isPID.title,
@@ -59,7 +59,7 @@ router.post('/:uid/:pid', async (req, res, next) => {
                                         if (!result) {
                                             return res.json({ code: 1, message: 'Không có dữ liệu tồn tại' })
                                         }
-                                        return res.json({ code: 0, message: 'Thêm item vào order thành công' })
+                                        return res.json({ code: 0, message: 'Thêm item vào order thành công 3' })
                                     })
                                     .catch(err => {
                                         return res.json({ code: 100, message: err })
@@ -98,7 +98,7 @@ router.post('/:uid/:pid', async (req, res, next) => {
                                         }
                                     })
                                         .then(result => {
-                                            return res.json({ code: 0, message: "Thêm item vào order thành công" })
+                                            return res.json({ code: 0, message: "Thêm item vào order thành công 2" })
                                         })
                                         .catch(err => {
                                             return res.json({ code: 1, message: err })
@@ -110,7 +110,7 @@ router.post('/:uid/:pid', async (req, res, next) => {
                                 $inc: { "items.$.quantity": 1 } 
                             })
                                 .then(result => {
-                                    return res.json({ code: 0, message: "Thêm item vào order thành công" })
+                                    return res.json({ code: 0, message: "Thêm item vào order thành công 1" })
                                 })
                                 .catch(err => {
                                     return res.json({ code: 100, message: err })
